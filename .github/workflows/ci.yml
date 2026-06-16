@@ -1,0 +1,41 @@
+---
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/setup
+      - run: nix develop --command treefmt --fail-on-change --no-cache
+
+  test:
+    runs-on: ubuntu-latest
+    env:
+      MIX_ENV: test
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/setup
+      - run: nix develop --command mix test
+
+  dialyzer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/setup
+      - id: plt-cache
+        uses: actions/cache@v4
+        with:
+          key: plts-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+          path: priv/plts
+      - if: steps.plt-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p priv/plts
+          nix develop --command mix dialyzer --plt
+      - run: nix develop --command mix dialyzer --format github

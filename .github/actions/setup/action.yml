@@ -1,0 +1,14 @@
+---
+name: Setup
+description: Sets up the workflow
+runs:
+  using: composite
+  steps:
+    - run: mkdir -p $HOME/.nix-defexpr/channels
+      shell: bash
+    - uses: cachix/install-nix-action@v31
+      with:
+        extra_nix_config: |
+          accept-flake-config = true
+    - run: nix develop --command mix deps.get
+      shell: bash

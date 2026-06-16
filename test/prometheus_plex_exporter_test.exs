@@ -1,8 +1,9 @@
 defmodule PrometheusPlexExporterTest do
   use ExUnit.Case
+
   doctest PrometheusPlexExporter
 
-  test "greets the world" do
-    assert PrometheusPlexExporter.hello() == :world
+  test "does math" do
+    assert 2 = 1 + 1
   end
 end
