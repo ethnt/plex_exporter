@@ -1,7 +1,7 @@
-defmodule PrometheusPlexExporterTest do
+defmodule PlexExporterTest do
   use ExUnit.Case
 
-  doctest PrometheusPlexExporter
+  doctest PlexExporter
 
   test "does math" do
     assert 2 = 1 + 1
