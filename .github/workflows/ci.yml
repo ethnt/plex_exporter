@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: ./.github/actions/setup
-      - run: nix develop --command treefmt --fail-on-change --no-cache
+      - run: nix develop --impure --command treefmt --fail-on-change --no-cache
 
   test:
     runs-on: ubuntu-latest
@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: ./.github/actions/setup
-      - run: nix develop --command mix test
+      - run: nix develop --impure --command mix test
 
   dialyzer:
     runs-on: ubuntu-latest
@@ -37,5 +37,5 @@ jobs:
       - if: steps.plt-cache.outputs.cache-hit != 'true'
         run: |
           mkdir -p priv/plts
-          nix develop --command mix dialyzer --plt
-      - run: nix develop --command mix dialyzer --format github
+          nix develop --impure --command mix dialyzer --plt
+      - run: nix develop --impure --command mix dialyzer --format github
