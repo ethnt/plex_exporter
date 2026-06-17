@@ -22,12 +22,12 @@ defmodule PlexExporter.Metrics.Sessions do
       {:ok, response} ->
         streams = response.body["MediaContainer"]["Metadata"] || []
 
-        frequencies =
+        tally =
           streams
           |> Enum.map(fn stream -> stream_type(stream) end)
           |> Enum.frequencies()
 
-        Map.merge(%{direct_play: 0, direct_stream: 0, transcode: 0}, frequencies)
+        Map.merge(%{direct_play: 0, direct_stream: 0, transcode: 0}, tally)
 
       _ ->
         :error
