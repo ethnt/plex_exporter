@@ -26,7 +26,7 @@
             export LANG="en_US.UTF-8"
             export ERL_AFLAGS="-kernel shell_history enabled"
             export ELIXIR_ERL_OPTIONS="-kernel shell_history enabled"
-            export MIX_ENV="dev"
+            export MIX_ENV="''${MIX_ENV:-dev}"
 
             export MIX_HOME="$PWD/.elixir/mix"
             export HEX_HOME="$PWD/.elixir/hex"
