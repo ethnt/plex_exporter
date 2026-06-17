@@ -13,7 +13,7 @@ defmodule PlexExporter.Plex.Client do
   @typedoc """
   Options to pass to the request
   """
-  @type opts :: [offset: integer(), limit: integer()]
+  @type opts :: [offset: integer(), limit: integer(), plug: term()]
 
   @doc """
   Displays information about the server
@@ -74,6 +74,12 @@ defmodule PlexExporter.Plex.Client do
 
   @spec apply_options(Req.Request.t(), opts()) :: Req.Request.t()
   defp apply_options(request, opts) do
+    request =
+      case Keyword.fetch(opts, :plug) do
+        {:ok, plug} -> Req.merge(request, plug: plug)
+        :error -> request
+      end
+
     with {:ok, offset} <- Keyword.fetch(opts, :offset),
          {:ok, limit} <- Keyword.fetch(opts, :limit) do
       request

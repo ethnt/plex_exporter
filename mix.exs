@@ -6,6 +6,7 @@ defmodule PrometheusPlexExporter.MixProject do
       app: :plex_exporter,
       version: "0.1.0",
       elixir: "~> 1.18",
+      elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       dialyzer: dialyzer()
@@ -23,9 +24,13 @@ defmodule PrometheusPlexExporter.MixProject do
   defp deps do
     [
       {:req, "~> 0.5.0"},
+      {:plug, "~> 1.0", only: :test},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false}
     ]
   end
+
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
 
   defp dialyzer do
     [
