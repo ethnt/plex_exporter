@@ -1,4 +1,4 @@
-defmodule PlexExporter.Plex do
+defmodule PlexExporter.Plex.Client do
   @moduledoc """
   Client for the Plex API
   """
