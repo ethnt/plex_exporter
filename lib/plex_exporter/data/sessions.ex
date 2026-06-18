@@ -1,4 +1,4 @@
-defmodule PlexExporter.Metrics.Sessions do
+defmodule PlexExporter.Data.Sessions do
   @moduledoc """
   Metrics about sessions
   """
@@ -26,7 +26,7 @@ defmodule PlexExporter.Metrics.Sessions do
           |> Enum.map(fn stream -> stream_type(stream) end)
           |> Enum.frequencies()
 
-        Map.merge(%{direct_play: 0, direct_stream: 0, transcode: 0}, tally)
+        {:ok, Map.merge(%{direct_play: 0, direct_stream: 0, transcode: 0}, tally)}
 
       _ ->
         :error

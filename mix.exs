@@ -15,6 +15,7 @@ defmodule PrometheusPlexExporter.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
+      mod: {PlexExporter.Application, []},
       extra_applications: [:logger]
     ]
   end
@@ -22,6 +23,8 @@ defmodule PrometheusPlexExporter.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:bandit, "~> 1.0"},
+      {:prometheus_plugs, git: "https://github.com/TBK145/prometheus-plugs.git", ref: "patch-1"},
       {:req, "~> 0.5.0"},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false}
     ]

@@ -1,4 +1,4 @@
-defmodule PlexExporter.Metrics.Media do
+defmodule PlexExporter.Data.Media do
   @moduledoc """
   Metrics about media
   """
