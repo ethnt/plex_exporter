@@ -8,6 +8,7 @@ defmodule PrometheusPlexExporter.MixProject do
       elixir: "~> 1.18",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
+      releases: releases(),
       dialyzer: dialyzer()
     ]
   end
@@ -24,9 +25,26 @@ defmodule PrometheusPlexExporter.MixProject do
   defp deps do
     [
       {:bandit, "~> 1.0"},
+      {:burrito, "~> 1.0"},
       {:prometheus_plugs, git: "https://github.com/TBK145/prometheus-plugs.git", ref: "patch-1"},
       {:req, "~> 0.5.0"},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false}
+    ]
+  end
+
+  def releases do
+    [
+      plex_exporter: [
+        steps: [:assemble, &Burrito.wrap/1],
+        burrito: [
+          targets: [
+            macos_x86: [os: :darwin, cpu: :x86_64],
+            macos_arm: [os: :darwin, cpu: :aarch64],
+            linux_x86: [os: :linux, cpu: :x86_64],
+            linux_arm: [os: :linux, cpu: :aarch64]
+          ]
+        ]
+      ]
     ]
   end
 

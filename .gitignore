@@ -33,3 +33,6 @@ plex_exporter-*.tar
 
 # PLTs
 /priv/plts/
+
+# Burrito
+/burrito_out/
