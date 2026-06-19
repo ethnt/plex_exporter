@@ -18,6 +18,6 @@ defmodule PlexExporter.Plex.Library do
   """
   @spec section(String.t(), Client.opts()) :: Client.response()
   def section(section_id, opts \\ []) do
-    Client.get("/library/sections/#{section_id}", opts)
+    Client.get("/library/sections/#{section_id}/all", opts)
   end
 end

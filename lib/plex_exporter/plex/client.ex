@@ -11,7 +11,7 @@ defmodule PlexExporter.Plex.Client do
   @typedoc """
   Response from `Req`
   """
-  @type response :: {:ok, Req.Response.t()} | {:error, Exception.t()}
+  @type response :: {:ok, Req.Response.t()} | {:error, :not_found} | {:error, Exception.t()}
 
   @doc """
   Make a `GET` request to the Plex API
