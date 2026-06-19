@@ -1,3 +1,6 @@
+console:
+    iex -S mix
+
 run:
     iex -S mix run --no-halt
 

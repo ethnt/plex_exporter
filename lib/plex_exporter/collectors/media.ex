@@ -5,7 +5,12 @@ defmodule PlexExporter.Collectors.Media do
 
   alias PlexExporter.Plex
 
-  @spec count :: {:ok, [%{}]} | :error
+  @type section_metrics :: %{title: String.t(), type: String.t(), count: non_neg_integer()}
+
+  @doc """
+  Return metrics about the library
+  """
+  @spec count :: {:ok, [section_metrics()]} | :error
   def count do
     case Plex.Library.sections() do
       {:ok, response} ->
@@ -22,7 +27,7 @@ defmodule PlexExporter.Collectors.Media do
     end
   end
 
-  @spec section_value(map()) :: list(map())
+  @spec section_value(map()) :: [section_metrics()]
   defp section_value(%{"title" => title, "key" => key, "type" => "show"}) do
     {:ok, count} = section_count(key)
     {:ok, episode_count} = section_count(key, %{"type" => "4"})
