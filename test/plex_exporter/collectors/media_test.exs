@@ -63,7 +63,7 @@ defmodule PlexExporter.Collectors.MediaTest do
       PlexExporter.Plex.Library
       |> expect(:sections, fn -> {:error, :unauthorized} end)
 
-      assert :error = Media.count()
+      assert {:error, :unauthorized} = Media.count()
     end
   end
 end

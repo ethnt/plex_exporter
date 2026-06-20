@@ -90,7 +90,7 @@ defmodule PlexExporter.Collectors.SessionsTest do
       PlexExporter.Plex.Status
       |> expect(:sessions, fn -> {:error, :unauthorized} end)
 
-      assert :error = Sessions.count()
+      assert {:error, :unauthorized} = Sessions.count()
     end
   end
 end

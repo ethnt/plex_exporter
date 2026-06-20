@@ -68,12 +68,20 @@ defmodule PlexExporter.Plex.ClientTest do
       assert {:ok, _} = Client.get("/status/info", params: %{foo: "bar"})
     end
 
+    test "returns 401 errors" do
+      stub(fn conn ->
+        respond(conn, 401)
+      end)
+
+      assert {:error, :unauthorized} = Client.get("/status/info")
+    end
+
     test "returns 403 errors" do
       stub(fn conn ->
         respond(conn, 403)
       end)
 
-      assert {:error, :unauthorized} = Client.get("/status/info")
+      assert {:error, :forbidden} = Client.get("/status/info")
     end
 
     test "returns 404 errors" do
