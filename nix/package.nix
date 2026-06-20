@@ -14,4 +14,6 @@ in beamPackages.mixRelease rec {
   };
 
   removeCookie = false;
+
+  meta.mainProgram = "plex_exporter";
 }

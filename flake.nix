@@ -16,12 +16,22 @@
 
       imports = with inputs; [ treefmt.flakeModule ];
 
-      perSystem = { config, lib, pkgs, ... }: {
-        packages.default = pkgs.callPackage ./nix/package.nix { };
+      perSystem = { system, config, lib, pkgs, ... }: {
+        packages = {
+          default = pkgs.callPackage ./nix/package.nix { };
+          docker = let
+            linuxSystem =
+              builtins.replaceStrings [ "darwin" ] [ "linux" ] system;
+            pkgsLinux = inputs.nixpkgs.legacyPackages.${linuxSystem};
+          in pkgsLinux.callPackage ./nix/docker.nix {
+            prometheus-plex-exporter =
+              pkgsLinux.callPackage ./nix/package.nix { };
+          };
+        };
 
         devShells.default = pkgs.mkShell {
           packages = with pkgs;
-            [ elixir_1_19 just ] ++ [ config.treefmt.build.wrapper ]
+            [ docker elixir_1_19 just ] ++ [ config.treefmt.build.wrapper ]
             ++ (builtins.attrValues config.treefmt.build.programs);
 
           shellHook = ''
@@ -45,6 +55,7 @@
               enable = true;
               package = pkgs.nixfmt-classic;
             };
+            prettier.enable = true;
           };
           settings.formatter = {
             elixir = {
