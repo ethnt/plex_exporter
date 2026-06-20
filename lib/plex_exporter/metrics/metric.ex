@@ -1,5 +1,5 @@
 defmodule PlexExporter.Metrics.Metric do
-  @callback init :: :ok
+  @callback init :: :ok | :error
   @callback update :: :ok | :error
 
   defmacro __using__(_opts) do

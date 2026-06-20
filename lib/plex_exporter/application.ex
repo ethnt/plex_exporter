@@ -17,8 +17,7 @@ defmodule PlexExporter.Application do
       _ ->
         [
           PlexExporter.Worker,
-          {Bandit,
-           plug: PlexExporter.Router, port: Application.get_env(:plex_exporter, :port, 9000)}
+          {Bandit, plug: PlexExporter.Router, port: PlexExporter.Config.port()}
         ]
     end
   end

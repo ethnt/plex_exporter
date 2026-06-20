@@ -35,14 +35,14 @@ defmodule PlexExporter.Plex.Client do
   @spec request(opts()) :: Req.Request.t()
   defp request(opts) do
     [
-      base_url: "#{Application.fetch_env!(:plex_exporter, :plex_url)}"
+      base_url: "#{PlexExporter.Config.plex_url()}"
     ]
     |> Keyword.merge(Application.get_env(:plex_exporter, :client_options, []))
     |> Req.new()
     |> Req.Request.put_new_header("Accept", "application/json")
     |> Req.Request.put_new_header(
       "X-Plex-Token",
-      Application.fetch_env!(:plex_exporter, :plex_token)
+      PlexExporter.Config.plex_token()
     )
     |> put_pagination_headers(opts)
   end
