@@ -28,7 +28,8 @@ defmodule PlexExporter.Plex.Client do
     {params, opts} = Keyword.pop(opts, :params, %{})
 
     response =
-      request(opts)
+      opts
+      |> request()
       |> Req.get(url: path, params: params)
 
     case response do

@@ -7,8 +7,6 @@ defmodule PlexExporter.Metrics.PlexTotalSessions do
 
   use PlexExporter.Metrics.Metric
 
-  require Logger
-
   alias PlexExporter.Collectors
 
   @impl true

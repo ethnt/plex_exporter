@@ -37,14 +37,12 @@ defmodule PlexExporter.Collectors.Sessions do
   end
 
   @spec stream_type(map()) :: :direct_play | :direct_stream | :transcode | :unknown
-  defp stream_type(%{"Media" => [%{"Part" => [%{"decision" => "directplay"}]}]}),
-    do: :direct_play
+  defp stream_type(%{"Media" => [%{"Part" => [%{"decision" => "directplay"}]}]}), do: :direct_play
 
   defp stream_type(%{
          "TranscodeSession" => %{"videoDecision" => "copy"},
          "Media" => [%{"Part" => [%{"decision" => "directStream"}]}]
-       }),
-       do: :direct_stream
+       }), do: :direct_stream
 
   defp stream_type(%{"TranscodeSession" => %{"videoDecision" => "transcode"}}), do: :transcode
 

@@ -4,17 +4,16 @@ defmodule PlexExporter.Collectors.MediaTest do
   import Mimic
 
   alias PlexExporter.Collectors.Media
+  alias PlexExporter.Plex.Library
 
   describe "count/0" do
     test "returns empty list when there are no sections" do
-      PlexExporter.Plex.Library
-      |> expect(:sections, fn -> {:ok, %Req.Response{body: %{"MediaContainer" => %{}}}} end)
-
+      expect(Library, :sections, fn -> {:ok, %Req.Response{body: %{"MediaContainer" => %{}}}} end)
       assert {:ok, []} = Media.count()
     end
 
     test "returns count for a movie library" do
-      PlexExporter.Plex.Library
+      Library
       |> expect(:sections, fn ->
         {:ok,
          %Req.Response{
@@ -33,7 +32,7 @@ defmodule PlexExporter.Collectors.MediaTest do
     end
 
     test "returns count and episode count for a show library" do
-      PlexExporter.Plex.Library
+      Library
       |> expect(:sections, fn ->
         {:ok,
          %Req.Response{
@@ -60,9 +59,7 @@ defmodule PlexExporter.Collectors.MediaTest do
     end
 
     test "returns error when sections call fails" do
-      PlexExporter.Plex.Library
-      |> expect(:sections, fn -> {:error, :unauthorized} end)
-
+      expect(Library, :sections, fn -> {:error, :unauthorized} end)
       assert {:error, :unauthorized} = Media.count()
     end
   end

@@ -7,7 +7,7 @@ defmodule PlexExporter.Worker do
 
   require Logger
 
-  @update_interval :timer.seconds(10)
+  @update_interval to_timeout(second: 10)
 
   def start_link(_), do: GenServer.start_link(PlexExporter.Worker, %{})
 

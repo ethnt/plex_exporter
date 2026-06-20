@@ -1,4 +1,8 @@
 defmodule PlexExporter.Config do
+  @moduledoc """
+  Fetch configuration values
+  """
+
   @doc """
   Gets the port from `PORT`, defauling to 9000
   """

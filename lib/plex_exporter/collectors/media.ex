@@ -16,9 +16,7 @@ defmodule PlexExporter.Collectors.Media do
       {:ok, response} ->
         sections = get_in(response.body, ["MediaContainer", "Directory"]) || []
 
-        values =
-          sections
-          |> Enum.flat_map(&section_value/1)
+        values = Enum.flat_map(sections, &section_value/1)
 
         {:ok, values}
 

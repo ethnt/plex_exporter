@@ -30,7 +30,8 @@ defmodule PrometheusPlexExporter.MixProject do
       {:logger_json, "~> 7.0.4"},
       {:mimic, "~> 2.3.0", only: [:test]},
       {:prometheus_plugs, git: "https://github.com/TBK145/prometheus-plugs.git", ref: "patch-1"},
-      {:req, "~> 0.5.0"}
+      {:req, "~> 0.5.0"},
+      {:styler, "~> 1.11", only: [:dev, :test], runtime: false}
     ]
   end
 
