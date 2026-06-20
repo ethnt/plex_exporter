@@ -21,7 +21,7 @@
 
         devShells.default = pkgs.mkShell {
           packages = with pkgs;
-            [ elixir_1_19 just xz zig_0_15 ] ++ [ config.treefmt.build.wrapper ]
+            [ elixir_1_19 just ] ++ [ config.treefmt.build.wrapper ]
             ++ (builtins.attrValues config.treefmt.build.programs);
 
           shellHook = ''
