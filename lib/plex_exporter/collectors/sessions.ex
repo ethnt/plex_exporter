@@ -16,7 +16,7 @@ defmodule PlexExporter.Collectors.Sessions do
              transcode: non_neg_integer(),
              unknown: non_neg_integer()
            }}
-          | :error
+          | {:error, atom()}
   def count do
     default_values = %{direct_play: 0, direct_stream: 0, transcode: 0}
 
@@ -31,8 +31,8 @@ defmodule PlexExporter.Collectors.Sessions do
 
         {:ok, Map.merge(default_values, values)}
 
-      _ ->
-        :error
+      {:error, reason} ->
+        {:error, reason}
     end
   end
 

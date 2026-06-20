@@ -15,6 +15,11 @@ defmodule PlexExporter.Metrics do
   end
 
   def update do
-    Enum.each(@metrics, fn metric -> metric.update() end)
+    Enum.reduce_while(@metrics, :ok, fn metric, _acc ->
+      case metric.update() do
+        {:error, reason} when reason in [:unauthorized, :forbidden] -> {:halt, {:error, reason}}
+        _ -> {:cont, :ok}
+      end
+    end)
   end
 end

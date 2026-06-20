@@ -27,6 +27,9 @@ defmodule PlexExporter.Metrics.PlexLibraryItems do
         Enum.each(counts, fn %{title: title, type: type, count: count} ->
           Gauge.set([name: :plex_library_items, labels: [title, type]], count)
         end)
+
+      {:error, reason} ->
+        {:error, reason}
     end
   end
 end

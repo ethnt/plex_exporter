@@ -7,6 +7,8 @@ defmodule PlexExporter.Metrics.PlexTotalSessions do
 
   use PlexExporter.Metrics.Metric
 
+  require Logger
+
   alias PlexExporter.Collectors
 
   @impl true
@@ -23,15 +25,15 @@ defmodule PlexExporter.Metrics.PlexTotalSessions do
   @impl true
   def update do
     case Collectors.Sessions.count() do
-      :error ->
-        :error
-
       {:ok, counts} ->
         Enum.each(counts, fn {type, count} ->
           Gauge.set([name: :plex_total_sessions, labels: [type]], count)
         end)
 
         :ok
+
+      {:error, reason} ->
+        {:error, reason}
     end
   end
 end

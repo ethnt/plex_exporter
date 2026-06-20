@@ -11,7 +11,14 @@ defmodule PlexExporter.Plex.Client do
   @typedoc """
   Response from `Req`
   """
-  @type response :: {:ok, Req.Response.t()} | {:error, :not_found} | {:error, Exception.t()}
+  @type response ::
+          {:ok, Req.Response.t()}
+          | {:error, :not_found}
+          | {:error, :unauthorized}
+          | {:error, :forbidden}
+          | {:error, Exception.t()}
+
+  defguard is_auth_error(reason) when reason in [:unauthorized, :forbidden]
 
   @doc """
   Make a `GET` request to the Plex API
@@ -26,7 +33,8 @@ defmodule PlexExporter.Plex.Client do
 
     case response do
       {:ok, %Req.Response{status: 200}} -> response
-      {:ok, %Req.Response{status: 403}} -> {:error, :unauthorized}
+      {:ok, %Req.Response{status: 401}} -> {:error, :unauthorized}
+      {:ok, %Req.Response{status: 403}} -> {:error, :forbidden}
       {:ok, %Req.Response{status: 404}} -> {:error, :not_found}
       {:error, _} -> response
     end

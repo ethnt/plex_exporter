@@ -10,7 +10,7 @@ defmodule PlexExporter.Collectors.Media do
   @doc """
   Return metrics about the library
   """
-  @spec count :: {:ok, [section_metrics()]} | :error
+  @spec count :: {:ok, [section_metrics()]} | {:error, atom()}
   def count do
     case Plex.Library.sections() do
       {:ok, response} ->
@@ -22,8 +22,8 @@ defmodule PlexExporter.Collectors.Media do
 
         {:ok, values}
 
-      _ ->
-        :error
+      {:error, reason} ->
+        {:error, reason}
     end
   end
 
