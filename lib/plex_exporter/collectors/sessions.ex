@@ -42,8 +42,7 @@ defmodule PlexExporter.Collectors.Sessions do
   defp stream_type(%{
          "TranscodeSession" => %{"videoDecision" => "copy"},
          "Media" => [%{"Part" => [%{"decision" => "directStream"}]}]
-       }),
-       do: :direct_stream
+       }), do: :direct_stream
 
   defp stream_type(%{"TranscodeSession" => %{"videoDecision" => "transcode"}}), do: :transcode
 
