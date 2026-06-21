@@ -10,5 +10,7 @@ runs:
       with:
         extra_nix_config: |
           accept-flake-config = true
+    - run: nix develop --command mix local.hex --force
+      shell: bash
     - run: nix develop --command mix deps.get
       shell: bash
