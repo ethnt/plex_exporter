@@ -11,21 +11,20 @@
   };
 
   outputs = inputs@{ nixpkgs, flake-parts, ... }:
-    flake-parts.lib.mkFlake { inherit inputs; } {
+    flake-parts.lib.mkFlake { inherit inputs; } ({ self, ... }: {
       systems = nixpkgs.lib.systems.flakeExposed;
 
       imports = with inputs; [ treefmt.flakeModule ];
 
-      perSystem = { system, config, lib, pkgs, ... }: {
+      flake.flakeModules.default =
+        flake-parts.lib.importApply ./flake-module.nix { inherit self; };
+
+      perSystem = { config, lib, pkgs, self', ... }: {
         packages = {
-          default = pkgs.callPackage ./nix/package.nix { };
-          docker = let
-            linuxSystem =
-              builtins.replaceStrings [ "darwin" ] [ "linux" ] system;
-            pkgsLinux = inputs.nixpkgs.legacyPackages.${linuxSystem};
-          in pkgsLinux.callPackage ./nix/docker.nix {
-            prometheus-plex-exporter =
-              pkgsLinux.callPackage ./nix/package.nix { };
+          default = pkgs.callPackage ./nix/packages/default.nix { };
+        } // lib.optionalAttrs pkgs.stdenv.isLinux {
+          docker = pkgs.callPackage ./nix/packages/docker.nix {
+            prometheus-plex-exporter = self'.packages.default;
           };
         };
 
@@ -66,5 +65,5 @@
           };
         };
       };
-    };
+    });
 }
