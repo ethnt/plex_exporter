@@ -67,12 +67,13 @@ And then include and use the NixOS module:
 
 ### Environment variables
 
-| Variable                          | Default | Description                                                                                                                                     |
-| --------------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `PLEX_URL`                        |         | The Plex server URL                                                                                                                             |
-| `PLEX_TOKEN_FILE` or `PLEX_TOKEN` |         | File containing your [Plex token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/) or the token itself |
-| `PORT`                            | `9000`  | Port that the exporter will run on                                                                                                              |
-| `LOG_LEVEL`                       | `info`  | Log level (`debug`, `info`, `warning`, `error`)                                                                                                 |
+| Variable                          | Default   | Description                                                                                                                                     |
+| --------------------------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `PLEX_URL`                        |           | The Plex server URL                                                                                                                             |
+| `PLEX_TOKEN_FILE` or `PLEX_TOKEN` |           | File containing your [Plex token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/) or the token itself |
+| `PORT`                            | `9000`    | Port that the exporter will run on                                                                                                              |
+| `LOG_LEVEL`                       | `info`    | Log level (`debug`, `info`, `warning`, `error`)                                                                                                 |
+| `LOG_FORMAT`                      | `console` | Log format (`console`, `json`)                                                                                                                  |
 
 ## Metrics
 
