@@ -19,12 +19,13 @@ defmodule PlexExporter.Worker do
   def handle_info(:update, state) do
     case PlexExporter.Metrics.update() do
       {:error, reason} when reason in [:unauthorized, :forbidden] ->
-        Logger.error("Plex returned #{reason}, verify your Plex token. Polling has stopped.")
+        Logger.error("Plex returned #{reason}, verify your Plex token.")
 
       _ ->
-        schedule_update()
+        :ok
     end
 
+    schedule_update()
     {:noreply, state}
   end
 

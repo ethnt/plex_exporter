@@ -16,9 +16,8 @@ defmodule PlexExporter.Plex.Client do
           | {:error, :not_found}
           | {:error, :unauthorized}
           | {:error, :forbidden}
+          | {:error, {:unexpected_status, non_neg_integer()}}
           | {:error, Exception.t()}
-
-  defguard is_auth_error(reason) when reason in [:unauthorized, :forbidden]
 
   @doc """
   Make a `GET` request to the Plex API
@@ -37,6 +36,7 @@ defmodule PlexExporter.Plex.Client do
       {:ok, %Req.Response{status: 401}} -> {:error, :unauthorized}
       {:ok, %Req.Response{status: 403}} -> {:error, :forbidden}
       {:ok, %Req.Response{status: 404}} -> {:error, :not_found}
+      {:ok, %Req.Response{status: status}} -> {:error, {:unexpected_status, status}}
       {:error, _} -> response
     end
   end
@@ -44,7 +44,8 @@ defmodule PlexExporter.Plex.Client do
   @spec request(opts()) :: Req.Request.t()
   defp request(opts) do
     [
-      base_url: "#{PlexExporter.Config.plex_url()}"
+      base_url: "#{PlexExporter.Config.plex_url()}",
+      receive_timeout: 30_000
     ]
     |> Keyword.merge(Application.get_env(:plex_exporter, :client_options, []))
     |> Req.new()
