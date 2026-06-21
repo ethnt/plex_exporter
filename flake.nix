@@ -66,7 +66,7 @@
           };
           settings.formatter = {
             elixir = {
-              command = lib.getExe' pkgs.elixir "mix";
+              command = lib.getExe' pkgs.elixir_1_19 "mix";
               options = [ "format" ];
               includes = [ "*.ex" "*.exs" "*.heex" ];
             };
