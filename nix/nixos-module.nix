@@ -2,12 +2,16 @@
 
 with lib;
 
-let cfg = config.services.prometheus-plex-exporter;
+let cfg = config.services.plex-exporter;
 in {
-  options.services.prometheus-plex-exporter = {
-    enable = mkEnableOption "prometheus-plex-exporter";
+  options.services.plex-exporter = {
+    enable = mkEnableOption "plex-exporter";
 
-    package = mkPackageOption pkgs "prometheus-plex-exporter";
+    package = mkOption {
+      type = types.package;
+      description = "Package to use for `plex-exporter`";
+      default = pkgs.plex_exporter;
+    };
 
     url = mkOption {
       type = types.str;
@@ -35,8 +39,8 @@ in {
   };
 
   config = mkIf cfg.enable {
-    systemd.services.prometheus-plex-exporter = {
-      description = "plex_exporter";
+    systemd.services.plex-exporter = {
+      description = "plex-exporter";
       wantedBy = [ "multi-user.target" ];
       after = [ "network.target" ];
 
@@ -54,5 +58,8 @@ in {
         RestartSec = 5;
       };
     };
+
+    networking.firewall =
+      mkIf cfg.openFirewall { allowedTCPPorts = [ cfg.port ]; };
   };
 }

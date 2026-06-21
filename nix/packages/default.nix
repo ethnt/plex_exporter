@@ -1,11 +1,10 @@
 { beam27Packages, elixir_1_18 }:
-
 let
   beamPackages = beam27Packages.extend (self: super: { elixir = elixir_1_18; });
 in beamPackages.mixRelease rec {
-  pname = "prometheus-plex-exporter";
+  pname = "plex-exporter";
   version = "dev";
-  src = ../.;
+  src = ../../.;
   mixEnv = "prod";
 
   mixFodDeps = beamPackages.fetchMixDeps {

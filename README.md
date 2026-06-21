@@ -8,8 +8,8 @@ A Prometheus exporter for your Plex server, including metrics about active sessi
 
 ```yaml
 services:
-  prometheus-plex-exporter:
-    image: ghcr.io/ethnt/prometheus-plex-exporter:latest
+  plex_exporter:
+    image: ghcr.io/ethnt/plex_exporter:latest
     restart: unless-stopped
     ports:
       - "9000:9000"
@@ -24,68 +24,41 @@ services:
 
 ### Nix
 
-#### With `flake-parts`
-
-Import `flakeModules.default` — it exposes `packages.prometheus-plex-exporter`, `overlays.default`, and a `nixosModules.default` that bundles the overlay automatically:
+You can add this project as a Flake input:
 
 ```nix
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    flake-parts.url = "github:hercules-ci/flake-parts";
-    prometheus-plex-exporter.url = "github:ethnt/prometheus-plex-exporter";
+    plex-exporter.url = "github:ethnt/plex_exporter";
   };
-
-  outputs = inputs@{ flake-parts, ... }:
-    flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [ inputs.prometheus-plex-exporter.flakeModules.default ];
-
-      systems =
-        [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
-
-      flake.nixosConfigurations.my-machine = inputs.nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          inputs.prometheus-plex-exporter.nixosModules.default
-          {
-            services.prometheus-plex-exporter = {
-              enable = true;
-              url = "http://plex:32400";
-              tokenFile = /run/secrets/plex_token;
-            };
-          }
-        ];
-      };
-    };
 }
 ```
 
-#### Without `flake-parts`
-
-Add the overlay so `pkgs.prometheus-plex-exporter` resolves, then import the NixOS module:
+Add the overlay containing the package:
 
 ```nix
 {
-  inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    prometheus-plex-exporter.url = "github:ethnt/prometheus-plex-exporter";
-  };
+  nixpkgs.overlays = [
+    plex-exporter.overlays.default
+  ];
+}
+```
 
-  outputs = { nixpkgs, prometheus-plex-exporter, ... }: {
-    nixosConfigurations.my-machine = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        { nixpkgs.overlays = [ prometheus-plex-exporter.overlays.default ]; }
-        prometheus-plex-exporter.nixosModules.default
-        {
-          services.prometheus-plex-exporter = {
-            enable = true;
-            url = "http://plex:32400";
-            tokenFile = /run/secrets/plex_token;
-          };
-        }
-      ];
-    };
+And then include and use the NixOS module:
+
+```nix
+{
+  nixpkgs.lib.nixosSystem {
+    modules = [
+      plex-exporter.nixosModules.default
+      ({
+        services.plex-exporter = {
+          enable = true;
+          url = "http://plex:32400";
+          tokenFile = /run/secrets/plex_token;
+        };
+      })
+    ];
   };
 }
 ```
@@ -116,6 +89,6 @@ plex_total_sessions{type="direct_play"} 1
 plex_total_sessions{type="direct_stream"} 0
 ```
 
-## Licensing
+## License
 
 `plex_exporter` is available under the MIT License.

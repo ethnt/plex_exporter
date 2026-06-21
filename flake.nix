@@ -1,5 +1,5 @@
 {
-  description = "prometheus-plex-exporter";
+  description = "plex_exporter";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
@@ -16,15 +16,23 @@
 
       imports = with inputs; [ treefmt.flakeModule ];
 
-      flake.flakeModules.default =
-        flake-parts.lib.importApply ./flake-module.nix { inherit self; };
+      flake = {
+        overlays.default = final: _prev: {
+          plex-exporter =
+            self.packages.${final.stdenv.hostPlatform.system}.default;
+        };
+
+        nixosModules.plex-exporter = { ... }: {
+          imports = [ ./nix/nixos-module.nix ];
+        };
+      };
 
       perSystem = { config, lib, pkgs, self', ... }: {
         packages = {
           default = pkgs.callPackage ./nix/packages/default.nix { };
         } // lib.optionalAttrs pkgs.stdenv.isLinux {
           docker = pkgs.callPackage ./nix/packages/docker.nix {
-            prometheus-plex-exporter = self'.packages.default;
+            plex_exporter = self'.packages.default;
           };
         };
 
