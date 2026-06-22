@@ -57,6 +57,7 @@ defmodule PlexExporter.Plex.Client do
       PlexExporter.Config.plex_token()
     )
     |> put_pagination_headers(opts)
+    |> ReqTelemetry.attach()
   end
 
   @spec put_pagination_headers(Req.Request.t(), opts()) :: Req.Request.t()

@@ -5,7 +5,7 @@ if config_env() != :test do
 
   formatter =
     case System.get_env("LOG_FORMAT", "console") do
-      "json" -> LoggerJSON.Formatters.Basic.new()
+      "json" -> LoggerJSON.Formatters.Basic.new(metadata: :all)
       _ -> Logger.Formatter.new()
     end
 
