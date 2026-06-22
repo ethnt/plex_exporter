@@ -32,6 +32,7 @@ defmodule PrometheusPlexExporter.MixProject do
       {:mimic, "~> 2.3.0", only: [:test]},
       {:prometheus_plugs, git: "https://github.com/ethnt/prometheus-plugs.git", ref: "36e7dc7"},
       {:req, "~> 0.5.0"},
+      {:req_telemetry, "~> 0.1.1"},
       {:styler, "~> 1.11", only: [:dev, :test], runtime: false}
     ]
   end

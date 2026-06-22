@@ -15,11 +15,11 @@ defmodule PlexExporter.Worker do
   end
 
   def handle_info(:update, state) do
-    Logger.debug("[Worker] Updating cached metrics")
+    Logger.debug(%{component: "worker", message: "Updating cached metrics"})
 
     case PlexExporter.Metrics.update(:cached) do
       {:error, reason} when reason in [:unauthorized, :forbidden] ->
-        Logger.error("[Worker] Plex returned #{reason}, verify your Plex token.")
+        Logger.error(%{component: "worker", message: "Plex returned #{reason}, verify your Plex token."})
 
       _ ->
         :ok

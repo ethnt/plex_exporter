@@ -1,7 +1,7 @@
 defmodule PlexExporter.Router do
   use Plug.Router
 
-  plug(Plug.Logger)
+  plug(PlexExporter.Plug.Logger)
   plug(PlexExporter.Plug)
   plug(:match)
   plug(:dispatch)

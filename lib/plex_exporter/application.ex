@@ -5,6 +5,13 @@ defmodule PlexExporter.Application do
 
   @impl Application
   def start(_type, _args) do
+    :telemetry.attach_many(
+      "plex-exporter-req-logger",
+      ReqTelemetry.events(:pipeline),
+      &PlexExporter.Plex.Logger.handle_event/4,
+      nil
+    )
+
     PlexExporter.Plug.setup()
     PlexExporter.Metrics.init()
 
