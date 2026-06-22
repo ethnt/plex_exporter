@@ -6,7 +6,7 @@ defmodule PlexExporter.Metrics do
   alias PlexExporter.Metrics
 
   @metrics [
-    Metrics.PlexTotalSessions,
+    Metrics.PlexActiveSessions,
     Metrics.PlexLibraryItems,
     Metrics.PlexServer
   ]

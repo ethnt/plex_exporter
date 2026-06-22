@@ -1,4 +1,4 @@
-defmodule PlexExporter.Metrics.PlexTotalSessions do
+defmodule PlexExporter.Metrics.PlexActiveSessions do
   @moduledoc """
   Metric for session counts
   """
@@ -15,7 +15,7 @@ defmodule PlexExporter.Metrics.PlexTotalSessions do
   @impl true
   def init do
     Gauge.declare(
-      name: :plex_total_sessions,
+      name: :plex_active_sessions,
       labels: [:type],
       help: "Number of active Plex sessions"
     )
@@ -28,7 +28,7 @@ defmodule PlexExporter.Metrics.PlexTotalSessions do
     case Collectors.Sessions.count() do
       {:ok, counts} ->
         Enum.each(counts, fn {type, count} ->
-          Gauge.set([name: :plex_total_sessions, labels: [type]], count)
+          Gauge.set([name: :plex_active_sessions, labels: [type]], count)
         end)
 
         :ok
