@@ -3,7 +3,7 @@ let
   beamPackages = beam27Packages.extend (self: super: { elixir = elixir_1_18; });
 in beamPackages.mixRelease rec {
   pname = "plex-exporter";
-  version = "0.0.2";
+  version = "0.0.3";
   src = ../../.;
   mixEnv = "prod";
 
