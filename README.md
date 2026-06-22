@@ -88,11 +88,11 @@ plex_library_items{title="TV Shows",type="show"} 467
 plex_library_items{title="TV Shows - Episodes",type="show_episode"} 13831
 plex_library_items{title="Movies",type="movie"} 1018
 plex_library_items{title="Other Videos",type="movie"} 2
-# TYPE plex_total_sessions gauge
-# HELP plex_total_sessions Number of active Plex sessions
-plex_total_sessions{type="transcode"} 0
-plex_total_sessions{type="direct_play"} 1
-plex_total_sessions{type="direct_stream"} 0
+# TYPE plex_active_sessions gauge
+# HELP plex_active_sessions Number of active Plex sessions
+plex_active_sessions{type="transcode"} 0
+plex_active_sessions{type="direct_play"} 1
+plex_active_sessions{type="direct_stream"} 0
 ```
 
 ## License
