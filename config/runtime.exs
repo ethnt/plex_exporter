@@ -17,5 +17,5 @@ if config_env() != :test do
     plex_token: System.get_env("PLEX_TOKEN"),
     plex_token_file: System.get_env("PLEX_TOKEN_FILE"),
     port: System.get_env("PORT", "9000"),
-    cache_ttl: System.get_env("CACHE_TTL", "900")
+    metrics_refresh_interval: System.get_env("METRICS_REFRESH_INTERVAL", "900")
 end

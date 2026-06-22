@@ -34,6 +34,6 @@ defmodule PlexExporter.Worker do
   end
 
   defp update_interval do
-    to_timeout(second: String.to_integer(Application.get_env(:plex_exporter, :cache_ttl)))
+    to_timeout(second: String.to_integer(Application.get_env(:plex_exporter, :metrics_refresh_interval)))
   end
 end

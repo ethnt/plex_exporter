@@ -1,6 +1,6 @@
 # plex_exporter
 
-A Prometheus exporter for your Plex server, including metrics about active sessions and your library.
+A Prometheus exporter for your Plex server, including metrics about active sessions and your library. 
 
 ## Running
 
@@ -72,8 +72,10 @@ And then include and use the NixOS module:
 | `PLEX_URL`                        |           | The Plex server URL                                                                                                                             |
 | `PLEX_TOKEN_FILE` or `PLEX_TOKEN` |           | File containing your [Plex token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/) or the token itself |
 | `PORT`                            | `9000`    | Port that the exporter will run on                                                                                                              |
+| `METRICS_REFRESH_INTERVAL`        | `900`     | How frequently to refetch cached metrics, in seconds
 | `LOG_LEVEL`                       | `info`    | Log level (`debug`, `info`, `warning`, `error`)                                                                                                 |
 | `LOG_FORMAT`                      | `console` | Log format (`console`, `json`)                                                                                                                  |
+
 
 ## Metrics
 
