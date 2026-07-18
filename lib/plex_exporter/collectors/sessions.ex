@@ -5,6 +5,8 @@ defmodule PlexExporter.Collectors.Sessions do
 
   alias PlexExporter.Plex
 
+  require Logger
+
   @doc """
   Return tally of sessions based on type
   """
@@ -48,5 +50,9 @@ defmodule PlexExporter.Collectors.Sessions do
 
   defp stream_type(%{"TranscodeSession" => %{"audioDecision" => "transcode"}}), do: :transcode
 
-  defp stream_type(_), do: :unknown
+  defp stream_type(res) do
+    Logger.warning(%{component: "collector", message: "received unknown stream type", response: res})
+
+    :unknown
+  end
 end
