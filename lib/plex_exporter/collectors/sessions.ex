@@ -51,7 +51,11 @@ defmodule PlexExporter.Collectors.Sessions do
   defp stream_type(%{"TranscodeSession" => %{"audioDecision" => "transcode"}}), do: :transcode
 
   defp stream_type(res) do
-    Logger.warning(%{component: "collector", message: "received unknown stream type", response: res})
+    Logger.warning(%{
+      component: "collector",
+      message: "received unknown stream type",
+      response: Map.take(res, ["TranscodeSession", "Media"])
+    })
 
     :unknown
   end
