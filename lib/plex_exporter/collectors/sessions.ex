@@ -39,24 +39,33 @@ defmodule PlexExporter.Collectors.Sessions do
   end
 
   @spec stream_type(map()) :: :direct_play | :direct_stream | :transcode | :unknown
-  defp stream_type(%{"Media" => [%{"Part" => [%{"decision" => "directplay"}]}]}), do: :direct_play
+  defp stream_type(session) do
+    transcode = Map.get(session, "TranscodeSession")
+    video = transcode && Map.get(transcode, "videoDecision")
+    audio = transcode && Map.get(transcode, "audioDecision")
 
-  defp stream_type(%{
-         "TranscodeSession" => %{"videoDecision" => "copy"},
-         "Media" => [%{"Part" => [%{"decision" => "directStream"}]}]
-       }), do: :direct_stream
+    cond do
+      video == "transcode" or audio == "transcode" ->
+        :transcode
 
-  defp stream_type(%{"TranscodeSession" => %{"videoDecision" => "transcode"}}), do: :transcode
+      is_map(transcode) ->
+        :direct_stream
 
-  defp stream_type(%{"TranscodeSession" => %{"audioDecision" => "transcode"}}), do: :transcode
+      has_media?(session) ->
+        :direct_play
 
-  defp stream_type(res) do
-    Logger.warning(%{
-      component: "collector",
-      message: "received unknown stream type",
-      response: Map.take(res, ["TranscodeSession", "Media"])
-    })
+      true ->
+        Logger.warning(%{
+          component: "collector",
+          message: "received unknown stream type",
+          response: Map.take(session, ["TranscodeSession", "Media"])
+        })
 
-    :unknown
+        :unknown
+    end
   end
+
+  @spec has_media?(map()) :: boolean()
+  defp has_media?(%{"Media" => [_ | _]}), do: true
+  defp has_media?(_), do: false
 end
