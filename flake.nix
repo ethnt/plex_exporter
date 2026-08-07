@@ -58,10 +58,7 @@
         treefmt.config = {
           projectRootFile = "flake.nix";
           programs = {
-            nixfmt = {
-              enable = true;
-              package = pkgs.nixfmt-classic;
-            };
+            nixpkgs-fmt.enable = true;
             prettier.enable = true;
           };
           settings.formatter = {
