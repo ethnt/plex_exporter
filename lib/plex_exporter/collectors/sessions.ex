@@ -5,8 +5,6 @@ defmodule PlexExporter.Collectors.Sessions do
 
   alias PlexExporter.Plex
 
-  require Logger
-
   @doc """
   Return tally of sessions based on type
   """
@@ -55,12 +53,6 @@ defmodule PlexExporter.Collectors.Sessions do
         :direct_play
 
       true ->
-        Logger.warning(%{
-          component: "collector",
-          message: "received unknown stream type",
-          response: Map.take(session, ["TranscodeSession", "Media"])
-        })
-
         :unknown
     end
   end
