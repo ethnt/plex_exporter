@@ -27,6 +27,23 @@ defmodule PlexExporter.Collectors.SessionsTest do
       assert {:ok, %{direct_play: 1, direct_stream: 0, transcode: 0}} = Sessions.count()
     end
 
+    test "counts direct play sessions with no decision (e.g. paused)" do
+      expect(Status, :sessions, fn ->
+        {:ok,
+         %Req.Response{
+           body: %{
+             "MediaContainer" => %{
+               "Metadata" => [
+                 %{"Media" => [%{"Part" => [%{"container" => "mp4"}]}]}
+               ]
+             }
+           }
+         }}
+      end)
+
+      assert {:ok, %{direct_play: 1, direct_stream: 0, transcode: 0}} = Sessions.count()
+    end
+
     test "counts direct steam sessions" do
       expect(Status, :sessions, fn ->
         {:ok,
