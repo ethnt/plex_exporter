@@ -1,6 +1,7 @@
-{ beam27Packages, elixir_1_18 }:
+{ beam27Packages }:
 let
-  beamPackages = beam27Packages.extend (self: super: { elixir = elixir_1_18; });
+  beamPackages = beam27Packages.extend
+    (self: super: { elixir = beam27Packages.elixir_1_19; });
 in
 beamPackages.mixRelease rec {
   pname = "plex-exporter";

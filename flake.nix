@@ -38,7 +38,7 @@
 
         devShells.default = pkgs.mkShell {
           packages = with pkgs;
-            [ docker elixir_1_19 just ] ++ [ config.treefmt.build.wrapper ]
+            [ docker beam27Packages.elixir_1_19 just ] ++ [ config.treefmt.build.wrapper ]
             ++ (builtins.attrValues config.treefmt.build.programs);
 
           shellHook = ''
