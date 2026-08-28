@@ -30,7 +30,7 @@
       perSystem = { config, lib, pkgs, self', ... }: {
         packages = {
           default = pkgs.callPackage ./nix/packages/default.nix { };
-        } // lib.optionalAttrs pkgs.stdenv.isLinux {
+        } // lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
           docker = pkgs.callPackage ./nix/packages/docker.nix {
             plex_exporter = self'.packages.default;
           };
