@@ -1,6 +1,6 @@
 { beam27Packages }:
 let
-  beamPackages = beam27Packages.extend
+  beamPackages = beam27Packages.overrideScope
     (self: super: { elixir = beam27Packages.elixir_1_19; });
 in
 beamPackages.mixRelease rec {
